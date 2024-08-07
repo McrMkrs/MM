@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <img src="logo.png" id="pic">
+                <li><a href="#home" onclick="showContent('home')">Home</a></li>
+                <li><a href="#about" onclick="showContent('about')">About Us</a></li>
+                <li><a href="#contact" onclick="showContent('contact')">Contact</a></li>
+                <li><button id="toggle-dark-mode"><i id="dark-mode-icon" class="fas fa-moon"></i></button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="content">
+        <section id="home">
+            <h1>Welcome to Micro Makers Website</h1>
+            <img src="logo.png" id="pic1">
+            <p class="aboutus">Hello and welcome! We are Micro Makers, a group of dedicated individuals with a passion 
+                for fabricating projects and offering various services. <br><br>This website is a space where we share a bit about ourselves, our work, and how 
+                you can get in touch with us.</p>
+            <button onclick="showContent('services')">Click this to see our available services.</button><br>
+            <button onclick="showContent('contact')">Contact Us!</button>
+        </section>
+
+        <section id="about" style="display: none;">
+            <center>
+            <h1>About Us</h1>
+            <p class="aboutus1">Hello and welcome! We are Micro Makers, a team of recent graduates with a passion for many services such as project fabrication. We enjoy creating beautiful and functional projects.
+                In our free time, we love to explore new technologies, read books, and spend time outdoors. We are always looking for new opportunities to grow and learn more in the field of web development.</p>
+            <p class="aboutus1">If you'd like to know more about our work or have any questions, don't hesitate to reach out to us through the <a href="#contact" onclick="showContent('contact')">Contact</a> section.</p>
+            </center>
+                <ul>Availability:  <b>24/7</b></ul>
+                <ul>Location: <b>Kabacan, North Cotabato</b></ul>
+                <ul>Degree: <b> BSCpE</b></ul>
+        </section>
+        
+        <section id="contact" style="display: none;">
+            <center>
+                <h1>Contact</h1>
+                <p>You can reach us via the following methods:</p>
+                <p>Facebook: <a href="https://www.facebook.com/share/1pSmE33LYPTar79d/?mibextid=qi2Omg" style="color: rgb(193, 161, 120);">Micro Makers</a></p>
+                <p>Phone: +639099538489</p>
+            </center>
+        </section>
+        <section id="services" style="display: none;">
+            <center>
+            <h1 class="ser">Our Services</h1>
+            <p class="aboutus">Project Fabrication</p>
+            <p class="aboutus">Logo Design</p>
+            <p class="aboutus">Thesis Consultation</p>
+            <p class="aboutus">Resume/CV</p>
+            <p class="aboutus">Reels Editing</p>
+            </center>
+        </section>
+    
+        
+        
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

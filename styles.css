@@ -1,0 +1,110 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header {
+    background-color: #282c28;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.aboutus {
+    font-size: 20px;
+
+}
+
+#pic {
+    height: 40px; /* Adjust as needed */
+    margin-right: auto;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a, nav ul li button {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+main {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section {
+    margin-bottom: 20px;
+    width: 80%; /* Adjust as needed */
+    text-align: center;
+}
+
+.contacts-section {
+    text-align: left;
+    width: 80%; /* Keep the width consistent */
+}
+
+button {
+    background-color: gray;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button i {
+    margin-right: 5px;
+}
+
+.dark-mode {
+    background-color: #333;
+    color: white;
+}
+
+.dark-mode header {
+    background-color: #222;
+}
+
+.dark-mode nav ul li a, .dark-mode nav ul li button {
+    color: #ddd;
+}
+
+#pic1 {
+    height: 150px; 
+    width: auto; 
+    border: solid 10px black;
+
+}
+
+.dark-mode nav ul li button:focus {
+    color: #000000;
+}
+
+.aboutus1{
+    text-align: justify;
+    font-size: 20px;
+}
+.ser{
+    font-weight: bold;
+}
