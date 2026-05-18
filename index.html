@@ -4,74 +4,432 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday! ❤️</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --bg-color: #ffeef2;
+            --card-bg: #ffffff;
+            --primary-pink: #ff7597;
+            --accent-pink: #ff4d73;
+            --text-color: #5a4b4e;
+            --pastel-blue: #b3e5fc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Container & Card Structure */
+        .card-container {
+            position: relative;
+            width: 360px;
+            height: 480px;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .card-container.open {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 117, 151, 0.2);
+            border: 4px solid #fff;
+            overflow: hidden;
+        }
+
+        /* FRONT OF CARD (Prank Zone) */
+        .card-front {
+            background: linear-gradient(135deg, #fff0f3 0%, #ffe3e8 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .front-deco {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .teasing-box {
+            min-height: 60px;
+            margin-bottom: 40px;
+            padding: 0 10px;
+        }
+
+        .teasing-text {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* The Elusive Prank Button */
+        .prank-btn {
+            background-color: var(--primary-pink);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 117, 151, 0.4);
+            transition: transform 0.1s ease, background-color 0.3s;
+            position: absolute;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .prank-btn:hover {
+            background-color: var(--accent-pink);
+        }
+
+        /* BACK OF CARD (The Reveal & Tabs) */
+        .card-back {
+            background: #ffffff;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            background-color: #ffe3e8;
+            border-bottom: 2px solid #ffd0d8;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background-color: #ffffff;
+            color: var(--accent-pink);
+            border-top: 3px solid var(--accent-pink);
+        }
+
+        /* Tab Content */
+        .tab-content-wrapper {
+            flex: 1;
+            position: relative;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .tab-panel {
+            display: none;
+            height: 100%;
+            animation: fadeIn 0.5s ease forwards;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .tab-panel h2 {
+            color: var(--accent-pink);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            20% { transform: translate(-8px, 5px) scale(0.95); }
+            40% { transform: translate(8px, -5px) scale(1.05); }
+            60% { transform: translate(-5px, -5px) scale(0.95); }
+            80% { transform: translate(5px, 5px) scale(1.02); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .shake-animation {
+            animation: shake 0.4s ease-in-out;
+        }
+    </style>
 </head>
 <body>
-    <div id="confetti-container"></div>
 
-    <div class="card-container">
-        <div class="card" id="birthdayCard">
-            <!-- Front of the card -->
-            <div class="card-front">
-                <h2>Happy Birthday, Beautiful! 🎂</h2>
-                <p>Click to open your card</p>
-                <div class="heart">❤️</div>
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="card-container" id="birthdayCard">
+        <!-- FRONT FACE -->
+        <div class="card-face card-front" id="frontFace">
+            <div class="front-deco">🎁</div>
+            <div class="teasing-box">
+                <p class="teasing-text" id="teaseMsg">I made something special for you! Click below to open it~ 💖</p>
             </div>
+            <!-- Placed relatively initially via JS calculation -->
+            <button class="prank-btn" id="prankBtn">Open Me 💖</button>
+        </div>
+
+        <!-- BACK FACE -->
+        <div class="card-face card-back">
+            <nav class="tab-nav">
+                <button class="tab-btn active" onclick="switchTab(event, 'letterTab')">Letter ✉️</button>
+                <button class="tab-btn" onclick="switchTab(event, 'wishesTab')">Wishes ✨</button>
+            </nav>
             
-            <!-- Inside of the card -->
-            <div class="card-inside">
-                <!-- Inside Navigation Tabs -->
-                <div class="card-tabs">
-                    <button class="tab-btn active" data-tab="message">Letter</button>
-                  <!--  <button class="tab-btn" data-tab="story">Our Story</button>-->
-                    <button class="tab-btn" data-tab="wishes">Wishes</button>
+            <div class="tab-content-wrapper">
+                <!-- Tab 1: Letter -->
+                <div id="letterTab" class="tab-panel active">
+                    <h2>Dearest Baby, ❤️</h2>
+                    <p>Happy Birthday! You finally caught the button, which means you deserve to read this. Thank you for bringing so much happiness, smiles, and warmth into my life every single day.</p>
+                    <br>
+                    <p>I hope your day is just as amazing, beautiful, and wonderful as you are to me. I love you to the moon and back!</p>
                 </div>
 
-                <!-- Tab Content 1: Main Letter -->
-                <div class="tab-content active" id="tab-message">
-                    <h2>To My Favorite Person,</h2>
-                    <p>Happiest birthday to the one who makes my world brighter every single day. I hope your day is as wonderful, beautiful, and amazing as you are. ✨</p>
-                    <p>Thank you for being you. I love you! ❤️</p>
-                    <p class="signature">- Lester</p>
-                </div>
-
-                <!-- Tab Content 2: Timeline/Story -->
-                <div class="tab-content" id="tab-story">
-                    <h2>Our Happy Memories 📖</h2>
-                    <div class="story-timeline">
-                        <div class="timeline-item">
-                            <span>The Day We Met</span>
-                            <p>The moment my life changed for the absolute better.</p>
-                        </div>
-                        <div class="timeline-item">
-                            <span>Our Favorite Date</span>
-                            <p>Laughing until our stomachs hurt and sharing unforgettable moments.</p>
-                        </div>
-                        <div class="timeline-item">
-                            <span>Today & Beyond</span>
-                            <p>Celebrating you today, and looking forward to making a million more memories.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tab Content 3: Birthday Wishes -->
-                <div class="tab-content" id="tab-wishes">
-                    <h2>My Wishes For You 🌟</h2>
-                    <ul class="wishes-list">
-                        <li> may your year be filled with endless laughter and pure joy.</li>
-                        <li> That you achieve every single goal and dream you've set for yourself.</li>
-                        <li> Always remember how incredibly loved, appreciated, and cherished you are.</li>
+                <!-- Tab 2: Wishes -->
+                <div id="wishesTab" class="tab-panel">
+                    <h2>My Wishes for You 🌟</h2>
+                    <ul>
+                        <li style="margin-bottom: 12px;">🎂 May this year bring you endless reasons to smile.</li>
+                        <li style="margin-bottom: 12px;">🚀 May all your secret goals and biggest dreams come true.</li>
+                        <li style="margin-bottom: 12px;">🍕 Always remember to take care of yourself, eat good food, and stay happy!</li>
                     </ul>
-                    <p class="signature-small">Always yours, Lester</p>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // --- Game / Prank Logic Config ---
+        const btnMessages = [
+            "Catch me if you can! 😜",
+            "Nope! Try again! 💕",
+            "Too slow! Haha 😂",
+            "Are you even trying? 😘",
+            "Not that easy, honey! 😏",
+            "Missed me! 🙈",
+            "Keep trying, cutie! 👀",
+            "Almost had it! 🤭",
+            "Still loading patience... ⏳"
+        ];
+
+        const teaseMessages = [
+            "Wait, you actually thought it'd just open? 😂",
+            "Wow, dedication! But still no. 💖",
+            "Your reflexes need work, sweetie! 😘",
+            "Getting warmer... just kidding! 😋",
+            "Come on, put some muscle into it! 💪",
+            "Error 404: Button click not found. 🛑"
+        ];
+
+        let clickCount = 0;
+        const prankBtn = document.getElementById('prankBtn');
+        const teaseMsg = document.getElementById('teaseMsg');
+        const card = document.getElementById('birthdayCard');
+        const frontFace = document.getElementById('frontFace');
+
+        // Center button smoothly on startup
+        window.addEventListener('DOMContentLoaded', () => {
+            positionButtonCenter();
+        });
+
+        function positionButtonCenter() {
+            prankBtn.style.left = `calc(50% - ${prankBtn.offsetWidth / 2}px)`;
+            prankBtn.style.top = `calc(60% - ${prankBtn.offsetHeight / 2}px)`;
+        }
+
+        // --- Core Click Event Handler ---
+        prankBtn.addEventListener('click', (e) => {
+            clickCount++;
+
+            if (clickCount < 10) {
+                // Dodge effect & feedback
+                moveButtonRandomly();
+                cycleTeasingText();
+                triggerShake();
+            } 
+            else if (clickCount === 10) {
+                // State: SIKE
+                moveButtonRandomly();
+                triggerShake();
+                prankBtn.innerText = "SIKE 😭";
+                teaseMsg.innerText = "You really thought that was it? 😂";
+            } 
+            else if (clickCount === 11) {
+                // State: Complete & Unlock
+                prankBtn.innerText = "Okay okay ❤️";
+                prankBtn.style.cursor = "default";
+                
+                // Open the card
+                card.classList.add('open');
+                
+                // Fire Celebrations
+                startConfetti();
+                
+                // Sweet Finale Alert
+                setTimeout(() => {
+                    alert("Happy Birthday Baby ❤️");
+                }, 1200);
+            }
+        });
+
+        // --- Action Functions ---
+        function moveButtonRandomly() {
+            const padding = 20;
+            // Bound inside parent element (.card-front)
+            const maxWidth = frontFace.clientWidth - prankBtn.offsetWidth - padding;
+            const maxHeight = frontFace.clientHeight - prankBtn.offsetHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxWidth));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxHeight));
+
+            prankBtn.style.left = `${randomX}px`;
+            prankBtn.style.top = `${randomY}px`;
+        }
+
+        function cycleTeasingText() {
+            const randomBtnText = btnMessages[Math.floor(Math.random() * btnMessages.length)];
+            const randomTeaseText = teaseMessages[Math.floor(Math.random() * teaseMessages.length)];
+            
+            prankBtn.innerText = randomBtnText;
+            teaseMsg.innerText = randomTeaseText;
+        }
+
+        function triggerShake() {
+            prankBtn.classList.add('shake-animation');
+            // Remove after animation completes so it can be re-triggered
+            setTimeout(() => {
+                prankBtn.classList.remove('shake-animation');
+            }, 400);
+        }
+
+        // --- Tabs Logic ---
+        function switchTab(event, tabId) {
+            // Get all panels and hide them
+            const panels = document.querySelectorAll('.tab-panel');
+            panels.forEach(panel => panel.classList.remove('active'));
+
+            // Get all buttons and remove active state
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show target panel and illuminate active tab button
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // --- Pure Lightweight Confetti Canvas Engine ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let confetti = [];
+        let animationFrameId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        class ConfettiParticle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height; // start offscreen top
+                this.size = Math.random() * 8 + 6;
+                this.speedX = Math.random() * 4 - 2;
+                this.speedY = Math.random() * 5 + 4;
+                this.color = `hsl(${Math.random() * 360}, 85%, 70%)`; // Pastel colors
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 4 - 2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function startConfetti() {
+            resizeCanvas();
+            // Spawn 150 particles
+            for (let i = 0; i < 150; i++) {
+                confetti.push(new ConfettiParticle());
+            }
+            animateConfetti();
+            
+            // Stop generating/rendering overhead after 6 seconds
+            setTimeout(() => {
+                cancelAnimationFrame(animationFrameId);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confetti = [];
+            }, 6000);
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confetti.forEach((particle, index) => {
+                particle.update();
+                particle.draw();
+                // Recycle particles falling off screen bottom
+                if (particle.y > canvas.height) {
+                    confetti[index] = new ConfettiParticle();
+                    confetti[index].y = -10;
+                }
+            });
+            animationFrameId = requestAnimationFrame(animateConfetti);
+        }
+    </script>
 </body>
 </html>
