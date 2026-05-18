@@ -72,13 +72,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Changed to flex-start so content alignment stays predictable */
             padding: 20px;
             text-align: center;
         }
 
         .front-deco {
             font-size: 4rem;
+            margin-top: 20px;
             margin-bottom: 10px;
             animation: float 3s ease-in-out infinite;
         }
@@ -87,6 +88,7 @@
             min-height: 60px;
             margin-bottom: 40px;
             padding: 0 10px;
+            width: 100%;
         }
 
         .teasing-text {
@@ -208,11 +210,10 @@
         <!-- FRONT FACE -->
         <div class="card-face card-front" id="frontFace">
             <div class="front-deco">🎁</div>
-            <div class="teasing-box">
-                <p class="teasing-text" id="teaseMsg">I made something special for you! Click below to open it~ 💖</p>
+            <div class="teasing-box" id="teasingBox">
+                <p class="teasing-text" id="teaseMsg">Hi, Bossing!!!🤗</p>
             </div>
-            <!-- Placed relatively initially via JS calculation -->
-            <button class="prank-btn" id="prankBtn">Open Me 💖</button>
+            <button class="prank-btn" id="prankBtn">Open Me🤪</button>
         </div>
 
         <!-- BACK FACE -->
@@ -226,18 +227,20 @@
                 <!-- Tab 1: Letter -->
                 <div id="letterTab" class="tab-panel active">
                     <h2>Dearest Baby, ❤️</h2>
-                    <p>Happy Birthday! You finally caught the button, which means you deserve to read this. Thank you for bringing so much happiness, smiles, and warmth into my life every single day.</p>
+                    <p>Happy Birthday! You finally caught the button, which means you deserve to read this. Thank you for bringing so much happiness, smiles, and warmth into my life these past few weeks.</p>
                     <br>
-                    <p>I hope your day is just as amazing, beautiful, and wonderful as you are to me. I love you to the moon and back!</p>
+                    <p>I hope your day is just as amazing, beautiful, and wonderful as you are to me. I’ve liked you since April, and I’ve loved you since May! Mehehe (˶˃𐃷˂˶)</p>
                 </div>
 
                 <!-- Tab 2: Wishes -->
                 <div id="wishesTab" class="tab-panel">
                     <h2>My Wishes for You 🌟</h2>
                     <ul>
-                        <li style="margin-bottom: 12px;">🎂 May this year bring you endless reasons to smile.</li>
-                        <li style="margin-bottom: 12px;">🚀 May all your secret goals and biggest dreams come true.</li>
-                        <li style="margin-bottom: 12px;">🍕 Always remember to take care of yourself, eat good food, and stay happy!</li>
+                        <li style="margin-bottom: 12px;">May this year bring you endless reasons to smile.</li>
+                        <li style="margin-bottom: 12px;">May all your secret goals and biggest dreams come true.</li>
+                        <li style="margin-bottom: 12px;">Always remember to take care of yourself, eat good food, and stay happy!</li>
+                        <li style="margin-bottom: 12px;">Don't forget to love me every single day hahshahsha</li>
+                        <li style="margin-bottom: 12px;">I hope you won’t find someone better than me HAHAHAHA</li>
                     </ul>
                 </div>
             </div>
@@ -245,42 +248,46 @@
     </div>
 
     <script>
-        // --- Game / Prank Logic Config ---
+        // --- Sequential arrays of messages (1 to 9 clicks) ---
         const btnMessages = [
-            "Catch me if you can! 😜",
-            "Nope! Try again! 💕",
-            "Too slow! Haha 😂",
-            "Are you even trying? 😘",
-            "Not that easy, honey! 😏",
-            "Missed me! 🙈",
-            "Keep trying, cutie! 👀",
-            "Almost had it! 🤭",
-            "Still loading patience... ⏳"
+            "Bleh😜",      // Click 1
+            "hmmm!",         // Click 2
+            "😎",           // Click 3
+            "please? 😘",      // Click 4
+            "hehe! 😏",     // Click 5
+            "yikes🙈",               // Click 6
+            "Again👀",       // Click 7
+            "No🤭",           // Click 8
+            "Yes😝"  // Click 9
         ];
 
         const teaseMessages = [
-            "Wait, you actually thought it'd just open? 😂",
-            "Wow, dedication! But still no. 💖",
-            "Your reflexes need work, sweetie! 😘",
-            "Getting warmer... just kidding! 😋",
-            "Come on, put some muscle into it! 💪",
-            "Error 404: Button click not found. 🛑"
+            "Na joke time ka ba? ",
+            "Click mo mga moots mo ",
+            "Ay ako nalang pala",
+            "Bigyan mo nga kiss ",
+            "One more🥺 ",
+            "French toast? ",
+            "Wala na error na",
+            "Stop na natin to? ",
+            "Steph ay ba is liw?"
         ];
 
         let clickCount = 0;
+
         const prankBtn = document.getElementById('prankBtn');
         const teaseMsg = document.getElementById('teaseMsg');
+        const teasingBox = document.getElementById('teasingBox');
         const card = document.getElementById('birthdayCard');
         const frontFace = document.getElementById('frontFace');
 
-        // Center button smoothly on startup
         window.addEventListener('DOMContentLoaded', () => {
             positionButtonCenter();
         });
 
         function positionButtonCenter() {
             prankBtn.style.left = `calc(50% - ${prankBtn.offsetWidth / 2}px)`;
-            prankBtn.style.top = `calc(60% - ${prankBtn.offsetHeight / 2}px)`;
+            prankBtn.style.top = `calc(65% - ${prankBtn.offsetHeight / 2}px)`;
         }
 
         // --- Core Click Event Handler ---
@@ -288,32 +295,27 @@
             clickCount++;
 
             if (clickCount < 10) {
-                // Dodge effect & feedback
                 moveButtonRandomly();
-                cycleTeasingText();
+                advanceSequentialText(clickCount - 1); // Maps click 1 to index 0, click 2 to index 1, etc.
                 triggerShake();
             } 
             else if (clickCount === 10) {
-                // State: SIKE
+                // Click 10: SIKE
                 moveButtonRandomly();
                 triggerShake();
-                prankBtn.innerText = "SIKE 😭";
+                prankBtn.innerText = "Yay!!!";
                 teaseMsg.innerText = "You really thought that was it? 😂";
             } 
             else if (clickCount === 11) {
-                // State: Complete & Unlock
+                // Click 11: Final opening state
                 prankBtn.innerText = "Okay okay ❤️";
                 prankBtn.style.cursor = "default";
                 
-                // Open the card
                 card.classList.add('open');
-                
-                // Fire Celebrations
                 startConfetti();
                 
-                // Sweet Finale Alert
                 setTimeout(() => {
-                    alert("Happy Birthday Baby ❤️");
+                    alert("Happy Birthday Baby! Iloveyousomuch! ❤️");
                 }, 1200);
             }
         });
@@ -321,28 +323,30 @@
         // --- Action Functions ---
         function moveButtonRandomly() {
             const padding = 20;
-            // Bound inside parent element (.card-front)
-            const maxWidth = frontFace.clientWidth - prankBtn.offsetWidth - padding;
-            const maxHeight = frontFace.clientHeight - prankBtn.offsetHeight - padding;
+            
+            // Calculate where the teasing message element ends vertically
+            const safeTopBound = teasingBox.offsetTop + teasingBox.offsetHeight + 10;
 
+            // X boundary logic remains the same
+            const maxWidth = frontFace.clientWidth - prankBtn.offsetWidth - padding;
             const randomX = Math.max(padding, Math.floor(Math.random() * maxWidth));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxHeight));
+
+            // Y boundary logic: Forces it to only select a coordinate between the bottom of the text and the bottom of the card
+            const maxHeight = frontFace.clientHeight - prankBtn.offsetHeight - padding;
+            const randomY = Math.floor(Math.random() * (maxHeight - safeTopBound + 1)) + safeTopBound;
 
             prankBtn.style.left = `${randomX}px`;
             prankBtn.style.top = `${randomY}px`;
         }
 
-        function cycleTeasingText() {
-            const randomBtnText = btnMessages[Math.floor(Math.random() * btnMessages.length)];
-            const randomTeaseText = teaseMessages[Math.floor(Math.random() * teaseMessages.length)];
-            
-            prankBtn.innerText = randomBtnText;
-            teaseMsg.innerText = randomTeaseText;
+        // Pulls strings based on the precise sequential index matches
+        function advanceSequentialText(index) {
+            prankBtn.innerText = btnMessages[index];
+            teaseMsg.innerText = teaseMessages[index];
         }
 
         function triggerShake() {
             prankBtn.classList.add('shake-animation');
-            // Remove after animation completes so it can be re-triggered
             setTimeout(() => {
                 prankBtn.classList.remove('shake-animation');
             }, 400);
@@ -350,20 +354,17 @@
 
         // --- Tabs Logic ---
         function switchTab(event, tabId) {
-            // Get all panels and hide them
             const panels = document.querySelectorAll('.tab-panel');
             panels.forEach(panel => panel.classList.remove('active'));
 
-            // Get all buttons and remove active state
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
 
-            // Show target panel and illuminate active tab button
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
         }
 
-        // --- Pure Lightweight Confetti Canvas Engine ---
+        // --- Confetti Engine ---
         const canvas = document.getElementById('confetti-canvas');
         const ctx = canvas.getContext('2d');
         let confetti = [];
@@ -378,11 +379,11 @@
         class ConfettiParticle {
             constructor() {
                 this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height - canvas.height; // start offscreen top
+                this.y = Math.random() * canvas.height - canvas.height;
                 this.size = Math.random() * 8 + 6;
                 this.speedX = Math.random() * 4 - 2;
                 this.speedY = Math.random() * 5 + 4;
-                this.color = `hsl(${Math.random() * 360}, 85%, 70%)`; // Pastel colors
+                this.color = `hsl(${Math.random() * 360}, 85%, 70%)`;
                 this.rotation = Math.random() * 360;
                 this.rotationSpeed = Math.random() * 4 - 2;
             }
@@ -403,13 +404,11 @@
 
         function startConfetti() {
             resizeCanvas();
-            // Spawn 150 particles
             for (let i = 0; i < 150; i++) {
                 confetti.push(new ConfettiParticle());
             }
             animateConfetti();
             
-            // Stop generating/rendering overhead after 6 seconds
             setTimeout(() => {
                 cancelAnimationFrame(animationFrameId);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -422,7 +421,6 @@
             confetti.forEach((particle, index) => {
                 particle.update();
                 particle.draw();
-                // Recycle particles falling off screen bottom
                 if (particle.y > canvas.height) {
                     confetti[index] = new ConfettiParticle();
                     confetti[index].y = -10;
