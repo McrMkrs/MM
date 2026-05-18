@@ -1,117 +1,251 @@
+/* Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-header {
-    background-color: #282c28;
-    padding: 10px 20px;
+    background: radial-gradient(circle, #fff5f7 0%, #ffeef2 100%);
+    font-family: 'Poppins', sans-serif;
     display: flex;
+    justify-content: center;
     align-items: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
-.aboutus {
-    font-size: 20px;
-
-}
-.proj{
-    font-size: 20px;
-    font-weight: bold;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-#pic {
-    height: 40px; /* Adjust as needed */
-    margin-right: auto;
-}
-.pics{
-    max-width: 250px;
-    height: 250px;
-}
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-}
-
-nav ul li {
-    margin: 0 15px;
-}
-
-nav ul li a, nav ul li button {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    background: none;
-    border: none;
+.card-container {
+    perspective: 1500px;
+    width: 360px;
+    height: 520px; /* Slightly taller to accommodate multi-content tabs comfortably */
     cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-main {
-    padding: 20px;
+.card-container:hover {
+    transform: translateY(-8px);
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 0 20px 40px rgba(255, 107, 139, 0.15);
+    border-radius: 20px;
+}
+
+.card.open {
+    transform: rotateY(-180deg);
+}
+
+.card-front, .card-inside {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    padding: 30px 25px;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
-section {
-    margin-bottom: 20px;
-    width: 80%; /* Adjust as needed */
+/* Front Design */
+.card-front {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: white;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
-.contacts-section {
-    text-align: left;
-    width: 80%; /* Keep the width consistent */
+.card-front h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 15px;
 }
 
-button {
-    background-color: gray;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    color: white;
-    display: flex;
+.heart {
+    font-size: 4rem;
+    margin-top: 30px;
+    animation: pulse 1.4s infinite ease-in-out;
+}
+
+/* Inside Design with Tabs */
+.card-inside {
+    background-color: #ffffff;
+    color: #555555;
+    transform: rotateY(180deg);
+    border: 10px solid #fecfef;
     align-items: center;
-    justify-content: center;
 }
 
-button i {
-    margin-right: 5px;
+/* Tab Navigation buttons */
+.card-tabs {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ffeef2;
+    padding-bottom: 10px;
+    z-index: 10; /* Ensures tabs are clickable over inner content animations */
 }
 
-.dark-mode {
-    background-color: #333;
-    color: white;
+.tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 6px 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #aaa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 20px;
 }
 
-.dark-mode header {
-    background-color: #222;
+.tab-btn.active, .tab-btn:hover {
+    color: #ff6b8b;
+    background-color: #fff5f7;
 }
 
-.dark-mode nav ul li a, .dark-mode nav ul li button {
-    color: #ddd;
+/* Tab Content Visibility Management */
+.tab-content {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; /* Fallback support for longer mobile lists */
+    animation: fadeIn 0.5s ease forwards;
 }
 
-#pic1 {
-    height: 150px; 
-    width: auto; 
-    border: solid 10px black;
-
+.tab-content.active {
+    display: flex;
 }
 
-.dark-mode nav ul li button:focus {
-    color: #000000;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.aboutus1{
-    text-align: justify;
-    font-size: 20px;
+/* Typography styles inside tabs */
+.card-inside h2 {
+    color: #ff6b8b;
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 15px;
 }
-.ser{
-    font-weight: bold;
+
+.card-inside p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 15px;
+}
+
+.signature {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.5rem;
+    color: #ff6b8b;
+    margin-top: auto; /* Pushes signature nicely to the bottom */
+}
+
+/* Tab 2 Content: Story Timeline Styling */
+.story-timeline {
+    width: 100%;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 20px;
+    border-left: 2px dashed #fecfef;
+    margin-bottom: 15px;
+}
+
+.timeline-item span {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #ff6b8b;
+    display: block;
+}
+
+.timeline-item p {
+    font-size: 0.85rem;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+/* Tab 3 Content: Wishes List Styling */
+.wishes-list {
+    list-style: none;
+    text-align: left;
+    width: 100%;
+}
+
+.wishes-list li {
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 20px;
+}
+
+.wishes-list li::before {
+    content: "💖";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    font-size: 0.75rem;
+}
+
+.signature-small {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem;
+    color: #ff6b8b;
+    margin-top: auto;
+}
+
+/* Pulse Keyframes */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Confetti Environment */
+#confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 999;
+}
+
+.confetti {
+    position: absolute;
+    top: -20px;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) translateX(var(--drift)) rotate(var(--rotation)); opacity: 0; }
+}
+
+/* Mobile responsive modifications */
+@media screen and (max-width: 480px) {
+    .card-container {
+        width: 90vw;
+        height: 70vh;
+        max-height: 490px;
+    }
 }
